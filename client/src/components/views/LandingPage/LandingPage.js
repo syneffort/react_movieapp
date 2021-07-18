@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaCode } from "react-icons/fa";
 import { API_URL, IMAGE_BASE_URL } from '../../Config';
-import MainImage from './Section/MainImage';
+import MainImage from '../Commons/MainImage';
 import GridCards from '../Commons/GridCards';
 import { Row } from 'antd';
 
@@ -25,7 +25,6 @@ function LandingPage() {
             .then(response => {
                 setMovies([...Movies, ...response.results]);
                 setCurrentPage(response.page);
-                console.log(CurrentPage);
                 if (CurrentPage === 0) setMainMovieImage(response.results[0]);
             });
     }

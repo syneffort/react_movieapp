@@ -2,7 +2,6 @@ import React from 'react'
 import { Col } from 'antd';
 
 function GridCards(props) {
-    console.log('gridcard');
     return (
         <Col lg={6} md={8} sm={24}>
             <div style={{ position: 'relative' }}>
