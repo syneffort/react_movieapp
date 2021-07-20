@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { FAVORITE_SERVER } from '../../../Config';
 import axios from 'axios';
 
 function Favorite(props) {
@@ -12,10 +13,10 @@ function Favorite(props) {
             userFrom,
             movieId
         }
-        axios.post('/api/favoriteNumber', variables)
+        axios.post(`${FAVORITE_SERVER}/favoritenumber`, variables)
             .then(response => {
                 if (response.data.success) {
-
+                    console.log(response.data);
                 } else {
                     alert('추천수 확인에 실패했습니다.')
                 }
