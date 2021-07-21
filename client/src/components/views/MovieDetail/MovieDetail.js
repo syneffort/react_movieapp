@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL, IMAGE_BASE_URL } from '../../Config';
-import { Row } from 'antd';
+import { Row, Button } from 'antd';
 import MainImage from '../Commons/MainImage';
 import MovieInfo from './Sections/MovieInfo';
 import GridCards from '../Commons/GridCards';
@@ -62,7 +62,7 @@ function MovieDetail(props) {
                     {/* Actor Grid */}
 
                     <div style={{ display: 'flex', justifyContent: 'center', margin: '2rem' }}>
-                        <button onClick={toggoleActorView}>출연진 보기</button>
+                        <Button onClick={toggoleActorView}>출연진 보기</Button>
                     </div>
 
                     {ActorToggle &&
