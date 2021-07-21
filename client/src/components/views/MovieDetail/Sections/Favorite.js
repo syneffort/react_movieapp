@@ -7,7 +7,9 @@ import { FAVORITE_SERVER } from '../../../Config';
 function Favorite(props) {
 
     const { movieInfo, movieId, userFrom } = props;
-    const { movieTitle, moviePost, movieRunTIme: movieRunTime } = movieInfo;
+    const movieTitle = movieInfo.title;
+    const moviePost = movieInfo.poster_path;
+    const movieRunTime = movieInfo.runtime
 
     let variables = {
         userFrom,

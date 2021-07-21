@@ -46,4 +46,13 @@ router.post('/remove-favorite', (req, res) => {
         });
 });
 
+router.post('/get-favorite-movie', (req, res) => {
+    Favorite.find({'userFrom': req.body.userFrom})
+        .exec((err, doc) => {
+            if (err) return res.status(400).send(err);
+            
+            return res.status(200).json({ success: true, favorites: doc});
+        })
+});
+
 module.exports = router;
