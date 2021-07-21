@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button } from 'antd';
+import { Button, Popover } from 'antd';
 import './favorite.css';
 
-import { FAVORITE_SERVER } from '../../Config';
+import { FAVORITE_SERVER, IMAGE_BASE_URL } from '../../Config';
 
-function FavoritePage() {
+function FavoritePage(props) {
 
     const [Favorites, setFavorites] = useState([]);
 
     useEffect(() => {
+        fetchFavoriteMovie();
+    }, []);
+
+    const fetchFavoriteMovie = () => {
         axios.post(`${FAVORITE_SERVER}/get-favorite-movie`, { userFrom: localStorage.getItem('userId') })
             .then(response => {
                 if (response.data.success) {
@@ -18,11 +22,41 @@ function FavoritePage() {
                     alert('좋아요 한 영화 정보 확인에 실패했습니다.')
                 }
             });
-    }, [])
+    };
 
-    return (
-        <div style={{ width: '85%', margin: '3rem auto' }}>
-            <h2>🥰 좋아요 한 영화</h2>
+    const renderCards = Favorites.map((elem, index) => {
+
+        const content = <div>
+            {elem.moviePost ? <img src={`${IMAGE_BASE_URL}/w200${elem.moviePost}`}/> : "no image"}
+        </div>
+
+        return <tr key={index}>
+            <Popover content={content} title={elem.movieTitle}>
+                <td>{elem.movieTitle}</td>
+            </Popover>
+            <td>{elem.movieRunTime} 분</td>
+            <td><Button onClick={() => onClickDelete(elem.movieId, elem.userFrom)}>취소</Button></td>
+        </tr>
+    });
+
+    const onClickDelete = (movieId, userFrom) => {
+        const variables = {
+            movieId,
+            userFrom,
+        }
+
+        axios.post(`${FAVORITE_SERVER}/remove-favorite`, variables)
+            .then(response => {
+                if (response.data.success) {
+                    return fetchFavoriteMovie();
+                } else {
+                    alert('좋아요 취소에 실패했습니다.')
+                }
+            });
+    };
+
+    return <div style={{ width: '85%', margin: '3rem auto' }}>
+            <h2>🥰 내가 좋아요 한 영화</h2>
             <hr />
 
             <table>
@@ -34,18 +68,10 @@ function FavoritePage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {console.log(Favorites)}
-                    {Favorites.map((elem, index) => (
-                        <tr key={index}>
-                            <td>{elem.movieTitle}</td>
-                            <td>{elem.movieRunTime} 분</td>
-                            <td><Button>취소</Button></td>
-                        </tr>
-                    ))}
+                    {renderCards}
                 </tbody>
             </table>
         </div>
-    )
 }
 
 export default FavoritePage
